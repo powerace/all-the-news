@@ -1,0 +1,26 @@
+.articles {
+   display: -webkit-box;:
+  -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  max-width: none;
+  padding: 0;
+  -webkit-align-items: stretch;
+  align-items: stretch;
+}
+
+.articles .col-sm-3 {
+    height: auto;
+  align-items: stretch;
+  display: -webkit-box;
+  text-align: left;
+}
+
+.col-sm-3 a {
+  color: #333;
+}
