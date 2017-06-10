@@ -7,8 +7,7 @@ var Schema = mongoose.Schema;
 var NoteSchema = new Schema({
   // text is a required string
   text: {
-    type: String,
-    required: true
+    type: String
   }
 });
 

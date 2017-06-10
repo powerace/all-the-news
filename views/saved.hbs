@@ -9,11 +9,42 @@
           <img src="{{image}}" style="width:100%"/>
           <p class="category">{{category}}</p>
           <h4 class="title">{{title}}</h4>
-          <a class="add-note btn btn-default" href="#" role="button">Add Note</a>
+          <a class="add-note btn btn-default" id="add-{{@index}}" href="#" role="button">Add Note</a>
           <a class="delete btn btn-default" href="#" role="button">Delete</a>
       </a>
     </div>
     {{/each}}
   </div>
 </div><br>
+
+{{#each articles}}
+<div id="tModal-{{@index}}" class="modal" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body">
+        <h4 class="modal-title">Notes</h4>
+        {{#each note}}
+          <div>
+            {{this}}
+            <button type="button" class="btn btn-danger">X</button>
+          </div>
+        {{/each}}
+        <h4 class="modal-title">Add a Note</h4>
+        <form method="post" action="/saved-articles/note/{{@index}}">
+          <div class="form-group">
+            <input name="text" type="text" class="form-control" id="note_{{@index}}" placeholder="Enter note text.">
+          </div>
+          <button type="submit" id="save_{{@index}}" class="save-note btn btn-default">Save Note</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+{{/each}}
 

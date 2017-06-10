@@ -1,3 +1,8 @@
+// $(document).ready(function(){
+// 	$.post("/scrape");
+// 	console.log('scrape');
+// });
+
 $('#scrape').on("click", function(){
 	$.post("/scrape").done(function(){
 		$('#tModal').modal();
@@ -17,3 +22,13 @@ $('.save').on("click", function(e){
         console.log(data);
   });
 });
+
+$('.add-note').on("click", function(){
+	var index = $(this).attr("id").split('-')[1];
+	$('#tModal-' + index).modal();
+});
+
+// $('.save-note').on("click", function(){
+// 	var index = $(this).attr("id").split('-')[1];
+// 	$.post("/saved-articles/note/" + index);
+// });

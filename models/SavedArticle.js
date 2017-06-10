@@ -7,22 +7,22 @@ var Schema = mongoose.Schema;
 var SavedArticleSchema = new Schema({
   // category is a required string
   category: {
-    type: String,
+    type: String
     //required: true
   },
   // title is a required string
   title: {
-    type: String,
+    type: String
     //required: true
   },
   // link is a required string
   link: {
-    type: String,
+    type: String
     //required: true
   },
   // image is a required string
   image: {
-    type: String,
+    type: String
     //required: true
   },
   // This saves notes' ObjectId, ref refers to the Note model

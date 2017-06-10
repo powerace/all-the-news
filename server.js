@@ -8,6 +8,7 @@ var cheerio = require("cheerio");
 // Require Article models
 var Article = require("./models/Article.js");
 var SavedArticle = require("./models/SavedArticle.js");
+var Note = require("./models/Note.js");
  
 mongoose.connect('mongodb://localhost/news');
 var db = mongoose.connection;
@@ -68,6 +69,7 @@ app.get("/", function(req, res) {
     else {
       //  res.send(doc)
       res.render('index', {articles: doc});
+      console.log(doc);
     }
   });
 });
@@ -88,7 +90,7 @@ app.post("/scrape", function(req, res) {
       result.link = "http://time.com" + $(this).find("._2br3xTV7").attr("href");
       result.image = $(this).find(".b-lazy").attr("data-src");
 
-      var Tarticle = new Article(result);
+      var article = new Article(result);
 
       //get all articles
       Article.find({}, function(error, doc){
@@ -97,22 +99,24 @@ app.post("/scrape", function(req, res) {
         }
         // 
         else {
-            // Tarticle.save();
-
-            for (var i = 0; i < doc.length; i++) {
-              if(doc[i].title.indexOf(Tarticle.title) === -1){
-                Tarticle.save();
-                articles.push(Tarticle);
-              } else {
-                console.log('match');
+            if(doc.length == 0){
+              article.save();
+            }
+            else {
+              for (var i = 0; i < doc.length; i++) {
+                if(doc[i].title.indexOf(article.title) === -1){
+                  article.save();
+                  articles.push(article);
+                } else {
+                  console.log('match');
+                }
               }
             }
-         
         }
       });
     }); 
-      //console.log(articles); 
-      res.redirect('/');
+    res.redirect('/');
+    //Why do I have to refresh the page after this?
   });
 
 
@@ -153,7 +157,7 @@ app.post("/saved-articles", function(req, res) {
 app.get("/saved-articles", function(req, res) {
   //get all articles
   SavedArticle.find({})
-  .populate("note")
+  .populate("notes")
   .exec(function(error, doc){
     if (error) {
       res.send(error);
@@ -161,9 +165,34 @@ app.get("/saved-articles", function(req, res) {
     // Or send the doc to the browser
     else {
       res.render('saved', {articles: doc});
-      console.log(doc);
     }
   });
+});
+
+app.post("/saved-articles/note/:index", function(req, res) {
+  var note = new Note(req.body);
+  var articleId = req.params.index;
+  console.log(note);
+
+  note.save(function(error, doc) {
+    // Send any errors to the browser
+    if (error) {
+      res.send(error);
+    }
+    // 
+    else {
+      SavedArticle.findOneAndUpdate({'_id': articleId}, {$push: {'notes': doc._id}}, {new:true}, function(error, doc) {
+        if(error) {
+          console.log(error);
+        } else {
+          res.redirect('/saved-articles');
+        }
+      });
+
+      
+    }
+  });
+
 });
 
 
