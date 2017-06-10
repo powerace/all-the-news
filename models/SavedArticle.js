@@ -8,22 +8,22 @@ var SavedArticleSchema = new Schema({
   // category is a required string
   category: {
     type: String,
-    required: true
+    //required: true
   },
   // title is a required string
   title: {
     type: String,
-    required: true
+    //required: true
   },
   // link is a required string
   link: {
     type: String,
-    required: true
+    //required: true
   },
   // image is a required string
   image: {
     type: String,
-    required: true
+    //required: true
   },
   // This saves notes' ObjectId, ref refers to the Note model
   notes: [{

@@ -135,23 +135,36 @@ app.get("/articles", function(req, res) {
 
 });
 
+app.post("/saved-articles", function(req, res) {
+  var article = new SavedArticle(req.body);
+  //console.log(article);
+  article.save(function(error, doc) {
+    // Send any errors to the browser
+    if (error) {
+      res.send(error);
+    }
+    // Otherwise, send the new doc to the browser
+    else {
+      res.send(doc);
+    }
+  });
+});
+
 app.get("/saved-articles", function(req, res) {
   //get all articles
-  SavedArticle.find({}, function(error, doc){
+  SavedArticle.find({})
+  .populate("note")
+  .exec(function(error, doc){
     if (error) {
       res.send(error);
     }
     // Or send the doc to the browser
     else {
       res.render('saved', {articles: doc});
+      console.log(doc);
     }
   });
 });
-
-app.post("/saved-articles", function(req, res) {
-  var articleToSave = 
-  SavedArticle.save(req.body);
-  });
 
 
 
