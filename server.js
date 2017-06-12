@@ -10,6 +10,7 @@ var Article = require("./models/Article.js");
 var SavedArticle = require("./models/SavedArticle.js");
 var Note = require("./models/Note.js");
  
+//mongoose.connect('mongolab-acute-60828');
 mongoose.connect('mongodb://localhost/news');
 var db = mongoose.connection;
 
@@ -75,7 +76,7 @@ app.get("/", function(req, res) {
 });
 
 // Simple index route
-app.post("/scrape", function(req, res) {
+app.get("/scrape", function(req, res) {
   var articles = [];
 
   request("http://time.com/section/newsfeed/", function(error, response, html){
@@ -84,6 +85,7 @@ app.post("/scrape", function(req, res) {
     $("._1QwSFyrQ").each(function(i, element){
 
       var result = {};
+      var count = $("._1QwSFyrQ").length;
       
       result.category = $(this).find('.g92dzT7Q').text();
       result.title = $(this).find("._2br3xTV7").text();
@@ -93,33 +95,29 @@ app.post("/scrape", function(req, res) {
       var article = new Article(result);
 
       //get all articles
-      Article.find({}, function(error, doc){
+      Article.findOne({'title': article.title}, function(error, doc){
         if (error) {
           res.send(error);
         }
         // 
-        else {
-            if(doc.length == 0){
-              article.save();
+        else if(doc == null){
+            article.save();
+            articles.push(article);
+            console.log('article saved');
+            if(i == (count - 1)){
+              console.log("redirect");
+              res.redirect("/");
             }
-            else {
-              for (var i = 0; i < doc.length; i++) {
-                if(doc[i].title.indexOf(article.title) === -1){
-                  article.save();
-                  articles.push(article);
-                } else {
-                  console.log('match');
-                }
-              }
-            }
+        } else {
+            console.log('no new articles');
+            res.redirect("/");
         }
       });
     }); 
-    res.redirect('/');
-    //Why do I have to refresh the page after this?
+
+
   });
-
-
+  
   
 });
 

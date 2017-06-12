@@ -4,7 +4,7 @@
 // });
 
 $('#scrape').on("click", function(){
-	$.post("/scrape").done(function(){
+	$.get("/scrape").done(function(){
 		$('#tModal').modal();
 	});
 });
