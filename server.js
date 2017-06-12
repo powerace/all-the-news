@@ -69,14 +69,16 @@ app.get("/", function(req, res) {
     // Or send the doc to the browser
     else {
       //  res.send(doc)
-      res.render('index', {articles: doc});
+      console.log("search after redirect");
       console.log(doc);
+      res.render('index', {articles: doc});
+
     }
   });
 });
 
 // Simple index route
-app.get("/scrape", function(req, res) {
+app.post("/scrape", function(req, res) {
   var articles = [];
 
   request("http://time.com/section/newsfeed/", function(error, response, html){

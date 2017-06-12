@@ -4,9 +4,17 @@
 // });
 
 $('#scrape').on("click", function(){
-	$.get("/scrape").done(function(){
+	$.post("/scrape").done(function(data){
+		console.log(data);
 		$('#tModal').modal();
+		// $('#tModal').on('shown.bs.modal', function() {
+		// 	$('.artNum').text(data.length);
+		// });
 	});
+});
+
+$('.close').on("click", function(){
+	window.location.href = "/";
 });
 
 $('.save').on("click", function(e){
