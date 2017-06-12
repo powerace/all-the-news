@@ -65,10 +65,7 @@ app.get("/", function(req, res) {
   Article.find({}, function(error, doc){
     if (error) {
       res.send(error);
-    }
-    // Or send the doc to the browser
-    else {
-      //  res.send(doc)
+    } else {
       console.log("search after redirect");
       console.log(doc);
       res.render('index', {articles: doc});
@@ -100,9 +97,7 @@ app.post("/scrape", function(req, res) {
       Article.findOne({'title': article.title}, function(error, doc){
         if (error) {
           res.send(error);
-        }
-        // 
-        else if(doc == null){
+        } else if (doc == null){
             article.save();
             articles.push(article);
             console.log('article saved');
@@ -111,8 +106,10 @@ app.post("/scrape", function(req, res) {
               res.redirect("/");
             }
         } else {
-            console.log('no new articles');
-            res.redirect("/");
+            if(i == (count - 1)){
+              console.log("no new articles");
+              res.redirect("/");
+            }
         }
       });
     }); 
@@ -169,9 +166,9 @@ app.get("/saved-articles", function(req, res) {
   });
 });
 
-app.post("/saved-articles/note/:index", function(req, res) {
+app.post("/saved-articles/note/:id", function(req, res) {
   var note = new Note(req.body);
-  var articleId = req.params.index;
+  var articleId = req.params.id;
   console.log(note);
 
   note.save(function(error, doc) {

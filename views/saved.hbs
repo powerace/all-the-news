@@ -32,7 +32,7 @@
           </div>
         {{/each}}
         <h4 class="modal-title">Add a Note</h4>
-        <form method="post" action="/saved-articles/note/{{@index}}">
+        <form method="post" action="/saved-articles/note/{{_id}}">
           <div class="form-group">
             <input name="text" type="text" class="form-control" id="note_{{@index}}" placeholder="Enter note text.">
           </div>
