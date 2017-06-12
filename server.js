@@ -144,7 +144,7 @@ app.post("/saved-articles", function(req, res) {
     if (error) {
       res.send(error);
     }
-    // Otherwise, send the new doc to the browser
+    // 
     else {
       res.send(doc);
     }
@@ -162,6 +162,7 @@ app.get("/saved-articles", function(req, res) {
     // Or send the doc to the browser
     else {
       res.render('saved', {articles: doc});
+      console.log(doc);
     }
   });
 });
@@ -192,6 +193,11 @@ app.post("/saved-articles/note/:id", function(req, res) {
 
 });
 
+app.get("/delete/note/:id", function(req, res) {
+  var noteId = req.params.id;
+
+  Note.find().remove({"_id": noteId}).exec();
+});
 
 
 // Listen on port 3000

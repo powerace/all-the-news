@@ -25,10 +25,10 @@
     <div class="modal-content">
       <div class="modal-body">
         <h4 class="modal-title">Notes</h4>
-        {{#each note}}
-          <div>
-            {{this}}
-            <button type="button" class="btn btn-danger">X</button>
+        {{#each notes}}
+          <div class="note">
+            {{this.text}}
+            <button type="button" class="delete-note btn btn-danger" data-id="{{this._id}}">X</button>
           </div>
         {{/each}}
         <h4 class="modal-title">Add a Note</h4>

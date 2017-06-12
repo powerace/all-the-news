@@ -36,6 +36,12 @@ $('.add-note').on("click", function(){
 	$('#tModal-' + index).modal();
 });
 
+$('.delete-note').on("click", function(){
+	$.get("/delete/note/" + $(this).attr("data-id"),function(){
+		$(this).parent().remove();
+	});
+});
+
 // $('.save-note').on("click", function(){
 // 	var index = $(this).attr("id").split('-')[1];
 // 	$.post("/saved-articles/note/" + index);
