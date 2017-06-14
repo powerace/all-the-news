@@ -10,8 +10,8 @@ var Article = require("./models/Article.js");
 var SavedArticle = require("./models/SavedArticle.js");
 var Note = require("./models/Note.js");
  
-//mongoose.connect('mongolab-acute-60828');
-mongoose.connect('mongodb://localhost/news');
+mongoose.connect('mongolab-acute-60828');
+//mongoose.connect('mongodb://localhost/news');
 var db = mongoose.connection;
 
 // Show any mongoose errors
