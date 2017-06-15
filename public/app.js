@@ -1,25 +1,19 @@
-// $(document).ready(function(){
-// 	$.post("/scrape");
-// 	console.log('scrape');
-// });
 
+//scrape articles when nav button clicked
 $('#scrape').on("click", function(){
 	$.post("/scrape").done(function(data){
-		console.log(data);
 		$('#tModal').modal();
-		// $('#tModal').on('shown.bs.modal', function() {
-		// 	$('.artNum').text(data.length);
-		// });
 	});
 });
 
+//refresh page after modal closed
 $('.close').on("click", function(){
 	window.location.href = "/";
 });
 
+//save article event handler
 $('.save').on("click", function(e){
 	e.preventDefault();
-	console.log("save clicked");
 	$.post("/saved-articles",{
         category: $(this).parent().find('.category').text(),
         title: $(this).parent().find(".title").text(),
@@ -27,22 +21,28 @@ $('.save').on("click", function(e){
         image: $(this).parent().find("img").attr("src")
     },
     function(data, status){
-        console.log(data);
   });
 });
 
+//add note event handler
 $('.add-note').on("click", function(){
 	var index = $(this).attr("id").split('-')[1];
 	$('#tModal-' + index).modal();
 });
 
+//delete note event handler
 $('.delete-note').on("click", function(){
-	$.get("/delete/note/" + $(this).attr("data-id"),function(){
-		$(this).parent().remove();
+	 var btn = $(this);
+	$.get("/delete/note/" + btn.attr("data-id"),function(){
+		btn.parent().remove();
 	});
 });
 
-// $('.save-note').on("click", function(){
-// 	var index = $(this).attr("id").split('-')[1];
-// 	$.post("/saved-articles/note/" + index);
-// });
+//delete article event handler
+$('.delete-article').on("click", function(){
+	var btn = $(this);
+	$.get("/saved-articles/delete/" + btn.attr("data-id"),function(){
+		btn.parents('.col-sm-3').remove();
+	});
+});
+
